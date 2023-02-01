@@ -8,6 +8,7 @@ module.exports = {
             if (!thoughts) {
             return res.status(404).json({ message: 'No thoughts found' });
             } else {
+            console.log(thoughts);
             return res.json(thoughts);
             }
         })
@@ -20,11 +21,13 @@ module.exports = {
     getOneThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
           .select('-__v')
-          .then((thought) =>
-            !thought
-              ? res.status(404).json({ message: 'No thought with that ID' })
-              : res.json(thought)
-          )
+          .then((thought) => {
+            if (!thought) {
+                return res.status(404).json({ message: 'No thought with that ID' });
+            }
+            console.log(thought);
+            return res.json(thought);
+        })
           .catch((err) => {
             console.log(err);
             return res.status(500).json(err);
@@ -39,7 +42,10 @@ module.exports = {
               { $push: { thoughts: thought._id }},
               { new: true }
             )
-              .then(user => res.json({ thought, user }))
+              .then(user => {
+                console.log(thought, user);
+                res.json({ thought, user });
+            })
               .catch(err => res.status(500).json(err))
           })
           .catch(err => res.status(500).json(err));
@@ -57,7 +63,10 @@ module.exports = {
               { $push: { thoughts: thought._id }},
               { new: true }
             )
-              .then(user => res.json({ thought, user }))
+            .then(user => {
+                console.log(thought + "was updated!");
+                res.json({ thought, user });
+            })
               .catch(err => res.status(500).json(err))
           })
           .catch(err => res.status(500).json(err));
@@ -71,7 +80,10 @@ module.exports = {
         { $pull: { thoughts: thought._id }},
         { new: true }
         )
-        .then(user => res.json({ thought, user }))
+        .then(user => {
+            console.log(thought + " was deleted!");
+            res.json({ thought, user });
+        })
         .catch(err => res.status(500).json(err))
         })
         .catch(err => res.status(500).json(err));
@@ -91,7 +103,10 @@ module.exports = {
     
             thought.reactions.push(newReaction);
             thought.save()
-              .then(() => res.json(thought))
+              .then(() => {
+                console.log(thought + " was added!");
+                res.json(thought)
+            })
               .catch(err => res.status(500).json({ message: "Error saving reaction" }));
           })
           .catch(err => res.status(500).json({ message: "Error finding thought" }));
@@ -111,7 +126,10 @@ module.exports = {
     
             thought.reactions.splice(reactionIndex, 1);
             thought.save()
-              .then(() => res.json(thought))
+            .then(() => {
+                console.log(thought + " was deleted!");
+                res.json(thought);
+            })
               .catch(err => res.status(500).json({ message: "Error deleting reaction" }));
           })
           .catch(err => res.status(500).json({ message: "Error finding thought" }));

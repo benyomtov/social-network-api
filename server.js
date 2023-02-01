@@ -10,5 +10,7 @@ app.use(express.json());
 app.use(routes);
 
 db.once('open', () => {
-    console.log(`Big Happy Fun Time on PORT ${PORT}`);
+    app.listen(PORT, () => {
+        console.log(`Big Happy Fun Time on PORT ${PORT}`);
+    });
 })

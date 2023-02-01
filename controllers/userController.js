@@ -5,7 +5,7 @@ module.exports = {
     User.find({})
       .then((users) => {
         console.log(users);
-        res.json(courses);
+        res.json(users);
       })
       .catch((err) => res.status(500).json(err));
   },
@@ -17,6 +17,7 @@ module.exports = {
         if (!user) {
           res.status(404).json({ message: "No user with that ID" });
         } else {
+          console.log(user);
           res.json(user);
         }
       })
@@ -33,7 +34,7 @@ module.exports = {
   },
 
   updateUser(req, res) {
-    User.findOneandUpdate(
+    User.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
       { runValidators: true, new: true }
@@ -42,6 +43,7 @@ module.exports = {
         if (!user) {
           res.status(404).json({ message: "No user with that ID" });
         } else {
+          console(user);
           res.json(user);
         }
       })
@@ -77,11 +79,13 @@ module.exports = {
             user.friends.push(friend._id);
             return user.save();
           })
-          .then(() =>
+          .then(() => {
+            console.log(`${friend.username} added to ${user.username}'s friend list!`);
+
             res.json({
               message: `${friend.username} added to ${user.username}'s friend list!`,
-            })
-          )
+            });
+          })
           .catch((err) => res.status(500).json(err));
       })
       .catch((err) => res.status(500).json(err));
@@ -107,11 +111,13 @@ module.exports = {
             );
             return user.save();
           })
-          .then(() =>
+          .then(() => {
+            console.log(`${friend.username} has been removed from ${user.username}'s friend list!`);
+
             res.json({
               message: `${friend.username} has been removed from ${user.username}'s friend list!`,
             })
-          )
+          })
           .catch((err) => res.status(500).json(err));
       })
       .catch((err) => res.status(500).json(err));

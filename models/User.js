@@ -18,15 +18,18 @@ const userSchema = new Schema({
           email
         );
       },
-      message: `${email} is not a valid email address!`,
+      message: `${this.email} is not a valid email address!`,
     },
   },
   thoughts: [{ type: Schema.Types.ObjectId, ref: "thought" }],
   friends: [{ type: Schema.Types.ObjectId, ref: "user" }],
+},
+{
   toJSON: {
     virtuals: true,
-    }
-});
+}
+},
+);
 
 userSchema.virtual('friendCount').get( () => {
     return this.friends.length;
