@@ -8,3 +8,5 @@ connect(connectionURI, {
 });
 
 module.exports = connection;
+
+//configures connection to mongodb and links with mongoose

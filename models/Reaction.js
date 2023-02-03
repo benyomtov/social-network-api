@@ -1,6 +1,8 @@
 const { ObjectId } = require("bson");
 const { Schema, model } = require("mongoose");
 
+//reaction schema is used within thought model
+
 const reactionSchema = new Schema({
     reactionId: {
       type: ObjectId,

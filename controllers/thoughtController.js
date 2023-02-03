@@ -2,6 +2,8 @@ const { Thought, User } = require('../models');
 const { ObjectId } = require('mongoose').Types;
 
 module.exports = {
+
+    //gets all thoughts
     getThoughts(req, res) {
         Thought.find()
         .then((thoughts) => {
@@ -18,6 +20,7 @@ module.exports = {
         });
     },
 
+    //gets one thought by ID
     getOneThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
           .select('-__v')
@@ -34,6 +37,7 @@ module.exports = {
         });
     },
 
+    //adds thought
     addThought(req, res) {
         Thought.create(req.body)
           .then(thought => {
@@ -46,11 +50,18 @@ module.exports = {
                 console.log(thought, user);
                 res.json({ thought, user });
             })
-              .catch(err => res.status(500).json(err))
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err)
+            });
           })
-          .catch(err => res.status(500).json(err));
+          .catch(err => {
+            console.log(err);
+            res.status(500).json(err)
+        });
     },
 
+    //updates thought by ID
     updateThought(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
@@ -67,11 +78,18 @@ module.exports = {
                 console.log(thought + "was updated!");
                 res.json({ thought, user });
             })
-              .catch(err => res.status(500).json(err))
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err)
+            });
           })
-          .catch(err => res.status(500).json(err));
+          .catch(err => {
+            console.log(err);
+            res.status(500).json(err)
+        });
     },
 
+    //deletes thought by ID
     deleteThought(req, res) {
         Thought.findOneAndDelete({ _id: req.params.thoughtId })
         .then(thought => {
@@ -82,13 +100,20 @@ module.exports = {
         )
         .then(user => {
             console.log(thought + " was deleted!");
-            res.json({ thought, user });
+            res.json({ message: "Thought deleted!" });
         })
-        .catch(err => res.status(500).json(err))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err)
+        });
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err)
+        });
     },
 
+    //adds reaction by thoughtID
     addReaction(req, res) {
         Thought.findById(req.params.thoughtId)
           .then((thought) => {
@@ -107,11 +132,18 @@ module.exports = {
                 console.log(thought + " was added!");
                 res.json(thought)
             })
-              .catch(err => res.status(500).json({ message: "Error saving reaction" }));
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err)
+            });
           })
-          .catch(err => res.status(500).json({ message: "Error finding thought" }));
+          .catch(err => {
+            console.log(err);
+            res.status(500).json(err)
+        });
     },
 
+    //deletes reaction by thoughtID and reactionID
     deleteReaction(req, res) {
         Thought.findById(req.params.thoughtId)
           .then((thought) => {
@@ -130,9 +162,15 @@ module.exports = {
                 console.log(thought + " was deleted!");
                 res.json(thought);
             })
-              .catch(err => res.status(500).json({ message: "Error deleting reaction" }));
+              .catch(err => {
+                console.log(err);
+                res.status(500).json(err)
+            });
           })
-          .catch(err => res.status(500).json({ message: "Error finding thought" }));
+          .catch(err => {
+            console.log(err);
+            res.status(500).json(err)
+        });
     }
 
 }
