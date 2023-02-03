@@ -21,6 +21,8 @@
   
   To use this application, simply type the appropriate endpoint for each route into Insomnia, making sure that the route type (get, put, post, delete) is correct. If posting, JSON data needs to be inputted into Insomnia in the correct format.
   
+  Included is a link to a walkthrough of how to use the application: https://drive.google.com/file/d/1I2N6ecUMDBOF3AdVFxux-FDqvYQPIKT2/view
+  
   ## Contributing
   
   Others could contribute to this project by adding more routes and functionalities, as well as by building a front-end to display the back-end information.
